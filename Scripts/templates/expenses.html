@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu tworzymy expense i widzimy listę</title>
+    <style>
+        table, th, tr, td {border: 1px solid black;}
+    </style>
+</head>
+
+<h2>Domowe Wydatki</h2>
+
+<table>
+    <thead>
+    <th>Pozycja</th>
+    <th>Opis</th>
+    <th>Czy kupione?</th>
+    </thead>
+{% for expense in expenses %}
+    <tr>
+        <td><a href="/expenses/{{ loop.index }}">{{ expense.item }}</a></td>
+        <td>{{ expense.description }}</td>
+        <td>{{ expense.bought }}</td>
+    </tr>
+{% endfor %}
+</table>
+<div>
+    <h2> Dodaj nowy wydatek: </h2>
+    <form method="POST" action="/expenses/">
+        {{ form.hidden_tag() }}
+        <table>
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                <tr>
+                    <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Go">
+    </form>
+</div>
+</body>
+</html>
